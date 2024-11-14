@@ -54,31 +54,13 @@ class ImagePreprocessor:
         
         return self.llm_util.analyze_image_base64(prompt,image_base64)
 
+
     def combined_analysis(self, image, edges):
         """结合两种方法的分析结果"""
         direct_result = self.direct_image_understanding(image)
         edge_result = self.edge_based_understanding(image, edges)
         
-        comparison_prompt = f"""
-        Compare and synthesize these two analyses of the same UI:
-
-        Direct Image Analysis:
-        {direct_result}
-
-        Edge-Based Analysis:
-        {edge_result}
-
-        Please provide:
-        1. Key similarities between the two analyses
-        2. Unique insights from each approach
-        3. Combined recommendations for UI reconstruction
-        4. Confidence levels for different detected elements
-        """
-        
-        synthesis = self.llm_util.native_chat(comparison_prompt)
-        
         return {
             "direct_analysis": direct_result,
-            "edge_analysis": edge_result,
-            "synthesis": synthesis
+            "edge_analysis": edge_result
         }

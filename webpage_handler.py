@@ -72,85 +72,99 @@ class WebpageHandler:
         
         # 解析JSON数据并创建简化版本
         data = json.loads(json_data)
-        simplified_data = {
-            "timestamp": data["timestamp"],
-            "total_frames": len(data["frames"]),
-            "sample_frame": data["frames"][0],  # 只使用第一帧作为示例
-            "frame_interval": self.sample_rate
-        }
+        frame_data = data["frames"][0]
         
         # 基础提示词模板
         base_template = f"""
-        Generate an HTML page that visualizes edge detection data from a video.
-        The data structure is as follows:
-        - Total frames: {simplified_data['total_frames']}
-        - Frame interval: {simplified_data['frame_interval']} seconds
-        - Each frame contains edge coordinates in format: [{{"x": int, "y": int}}, ...]
+        Generate a complete, runnable HTML page that visualizes UI analysis results. 
+        Output ONLY the full HTML code without any explanations or markdown.
         
-        Sample frame data:
-        {json.dumps(simplified_data['sample_frame'], indent=2)}
+        Use the following analysis data:
         
-        Requirements:
-        1. A visualization of the edge points
-        2. Basic controls for frame navigation
-        3. Responsive design
-        4. The page should be able to load and parse the full JSON data from 'edges.json'
+        DIRECT_ANALYSIS = `{frame_data["analysis"]["direct_analysis"]}`
+        EDGE_ANALYSIS = `{frame_data["analysis"]["edge_analysis"]}`
+
+        Technical Requirements:
+        1. Use Tailwind CSS (include CDN)
+        2. Include Alpine.js for interactivity (include CDN)
+        3. Create a responsive layout with:
+        - Navigation/tabs for switching between analyses
+        - Cards for displaying analysis sections
+        - Interactive UI component visualization
+        4. Include the original image (use 'frame.jpg' as src)
+        5. Implement dark/light mode toggle
+        6. Add loading states and transitions
+        7. Ensure all interactive elements have hover states
+        8. Include proper meta tags and viewport settings
+
+        The complete HTML should:
+        - Start with <!DOCTYPE html>
+        - Include all necessary CDN links
+        - Contain all CSS and JavaScript inline
+        - Be properly formatted and indented
+        - Include error handling
+        - Have all interactive features fully implemented
+        - Be fully responsive
+        
+        IMPORTANT: Output ONLY the complete HTML code, nothing else.
         """
         
         # 标准 Chain of Thought
         standard_cot_prompt = f"""
         {base_template}
         
-        Let's approach this step by step:
-        1. First, create the HTML structure and add JSON loading logic
-        2. Then, implement the visualization using Canvas/SVG
-        3. Add frame navigation controls
-        4. Implement responsive design
-        5. Add error handling and loading states
+        Structure the HTML as follows:
+        1. Document head with meta tags and CDN links
+        2. Navigation bar with analysis toggles
+        3. Main content area with:
+        - Original image section
+        - Analysis results in cards
+        - Interactive visualization
+        4. Footer with additional information
         
-        Please provide your solution following these steps.
+        IMPORTANT: Output ONLY the complete HTML code, nothing else.
         """
         
         # Tree of Thought
         tree_of_thought_prompt = f"""
         {base_template}
         
-        Let's explore multiple possible approaches:
+        Implement the following features:
+        1. Header:
+        - Responsive navigation
+        - Theme toggle
+        - Analysis type selector
+        2. Main Content:
+        - Image viewer with zoom
+        - Analysis cards with expandable sections
+        - Interactive component map
+        3. Sidebar:
+        - Quick navigation
+        - Analysis summary
+        - Control panel
         
-        Branch A: SVG-based Visualization
-        - A1: Static SVG elements
-        - A2: Dynamic SVG with JavaScript
-        
-        Branch B: Canvas-based Visualization
-        - B1: Basic Canvas drawing
-        - B2: Animated Canvas
-        
-        Branch C: Data Management
-        - C1: Streaming data loading
-        - C2: Batch processing
-        
-        Choose and implement the most efficient approach.
+        IMPORTANT: Output ONLY the complete HTML code, nothing else.
         """
         
         # Graph of Thought
         graph_of_thought_prompt = f"""
         {base_template}
         
-        Consider these interconnected components:
+        Create a single-page application with:
+        1. Layout:
+        - Fixed header with controls
+        - Scrollable main content
+        - Floating action buttons
+        2. Components:
+        - Image comparison tool
+        - Analysis viewer
+        - Interactive overlay
+        3. Features:
+        - Smooth transitions
+        - Responsive grid
+        - Touch support
         
-        Data Layer:
-        - JSON loading and parsing
-        - Frame data management
-        
-        Visualization Layer:
-        - Rendering strategy
-        - Performance optimization
-        
-        UI Layer:
-        - Controls and navigation
-        - Responsive design
-        
-        Create an implementation that optimally connects these components.
+        IMPORTANT: Output ONLY the complete HTML code, nothing else.
         """
         
         try:
@@ -166,11 +180,25 @@ class WebpageHandler:
             output_dir.mkdir(parents=True, exist_ok=True)
             
             for approach, html in results.items():
+                # 确保结果是纯HTML代码
+                if not html.strip().startswith('<!DOCTYPE html>'):
+                    html = f"""<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>UI Analysis - {approach}</title>
+                        {html}
+                    </head>
+                    <body>
+                        {html}
+                    </body>
+                    </html>"""
+                
                 file_path = output_dir / f'visualization_{approach}.html'
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(html)
             
-            # 返回所有生成的文件路径
             return {
                 'standard_cot': str(output_dir / 'visualization_standard_cot.html'),
                 'tree_of_thought': str(output_dir / 'visualization_tree_of_thought.html'),
@@ -179,19 +207,9 @@ class WebpageHandler:
             
         except Exception as e:
             print(f"HTML生成过程中出现错误: {str(e)}")
-            # 返回一个基本的错误页面路径
-            error_html = """
-            <html>
-                <body>
-                    <h1>Error Generating Visualization</h1>
-                    <p>There was an error generating the visualization. Please check the logs.</p>
-                </body>
-            </html>
-            """
-            error_path = output_dir / 'visualization_error.html'
-            with open(error_path, 'w', encoding='utf-8') as f:
-                f.write(error_html)
-            return {'error': str(error_path)}
+            return {
+                'error': str(e)
+            }
     
 
     def run(self, video_path, output_dir="output"):
@@ -238,118 +256,18 @@ class WebpageHandler:
         
         # 生成不同版本的HTML并保存
         html_paths = self.generate_html(json_str)
-        
-        # 创建一个合并的HTML文件，包含所有分析结果和可视化链接
-        combined_html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>UI Analysis Results</title>
-            <style>
-                body {{ 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 20px;
-                }}
-                h1, h2 {{ color: #333; }}
-                .section {{
-                    margin: 20px 0;
-                    padding: 15px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                }}
-                .image-section {{
-                    text-align: center;
-                }}
-                .image-section img {{
-                    max-width: 100%;
-                    height: auto;
-                    margin: 10px 0;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                }}
-                .analysis-section {{
-                    background: #f9f9f9;
-                }}
-                pre {{
-                    background: #f5f5f5;
-                    padding: 10px;
-                    border-radius: 5px;
-                    overflow-x: auto;
-                    white-space: pre-wrap;
-                }}
-                .links {{ 
-                    margin: 20px 0;
-                }}
-                a {{ 
-                    display: inline-block;
-                    margin: 10px;
-                    padding: 10px 15px;
-                    background: #0066cc;
-                    color: white;
-                    text-decoration: none;
-                    border-radius: 5px;
-                }}
-                a:hover {{
-                    background: #0052a3;
-                }}
-            </style>
-        </head>
-        <body>
-            <h1>UI Analysis Results</h1>
-            
-            <div class="section image-section">
-                <h2>Original Frame</h2>
-                <img src="frame.jpg" alt="Original Frame">
-            </div>
-            
-            <div class="section analysis-section">
-                <h2>Direct Image Analysis</h2>
-                <pre>{analysis_results['direct_analysis']}</pre>
-                
-                <h2>Edge-Based Analysis</h2>
-                <pre>{analysis_results['edge_analysis']}</pre>
-                
-                <h2>Combined Analysis</h2>
-                <pre>{analysis_results['synthesis']}</pre>
-            </div>
-            
-            <div class="section">
-                <h2>Visualization Versions</h2>
-                <div class="links">
-                    <a href="html_versions/visualization_standard_cot.html">Standard Chain of Thought</a>
-                    <a href="html_versions/visualization_tree_of_thought.html">Tree of Thought</a>
-                    <a href="html_versions/visualization_graph_of_thought.html">Graph of Thought</a>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>Data Files</h2>
-                <p>Original frame: <a href="frame.jpg">frame.jpg</a></p>
-                <p>Edge detection data: <a href="edges.json">edges.json</a></p>
-            </div>
-        </body>
-        </html>
-        """
-        
-        # 保存合并的HTML
-        combined_html_path = f"{output_dir}/index.html"
-        with open(combined_html_path, "w", encoding='utf-8') as f:
-            f.write(combined_html)
+
         
         return {
             "frame_path": frame_path,
             "json_path": json_path,
             "html_paths": html_paths,
-            "index_path": combined_html_path,
             "analysis_results": analysis_results
         }
     
 
     def run_ablation(self, video_path, output_dir="output/ablation"):
-        """消融实验处理流程 - 对照组"""
+        """消融实验处理流程 - 仅使用视觉分析"""
         # 创建输出目录
         Path(output_dir).mkdir(parents=True, exist_ok=True)
         
@@ -380,79 +298,34 @@ class WebpageHandler:
         with open(analysis_path, "w", encoding='utf-8') as f:
             json.dump(analysis_results, f, indent=2, ensure_ascii=False)
         
-        # 创建对照组HTML文件
-        ablation_html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Direct Vision Analysis (Ablation Study)</title>
-            <style>
-                body {{ 
-                    font-family: Arial, sans-serif; 
-                    margin: 20px; 
-                    max-width: 1200px; 
-                    margin: 0 auto; 
-                    padding: 20px;
-                }}
-                h1, h2 {{ color: #333; }}
-                .analysis-section {{ 
-                    margin: 20px 0;
-                    padding: 15px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                }}
-                .image-section {{
-                    margin: 20px 0;
-                }}
-                .image-section img {{
-                    max-width: 100%;
-                    height: auto;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                }}
-                pre {{ 
-                    background: #f5f5f5;
-                    padding: 10px;
-                    border-radius: 5px;
-                    overflow-x: auto;
-                    white-space: pre-wrap;
-                }}
-                .comparison-link {{
-                    margin: 20px 0;
-                    padding: 10px;
-                    background: #f0f0f0;
-                    border-radius: 5px;
-                }}
-                a {{ color: #0066cc; text-decoration: none; }}
-                a:hover {{ text-decoration: underline; }}
-            </style>
-        </head>
-        <body>
-            <h1>UI Analysis - Direct Vision Approach</h1>
-            
-            <div class="image-section">
-                <h2>Original Frame</h2>
-                <img src="frame.jpg" alt="Original Frame">
-            </div>
-            
-            <div class="analysis-section">
-                <h2>Direct Vision Analysis</h2>
-                <pre>{direct_analysis}</pre>
-            </div>
-            
-            <div class="comparison-link">
-                <p>👉 <a href="../output/index.html">Compare with Edge Detection Approach</a></p>
-            </div>
-            
-            <p>Analysis results saved as: direct_analysis.json</p>
-        </body>
-        </html>
+        # 生成HTML的提示词
+        prompt = f"""
+        Generate an HTML page based on the UI image analysis results below. 
+        The page should visualize and structure the analysis in an interactive and user-friendly way.
+
+        Analysis Results:
+        {direct_analysis}
+
+        Requirements:
+        1. Create a modern, responsive web interface
+        2. Include the following sections:
+        - Original image display (use 'frame.jpg' as the image source)
+        - Structured analysis results
+        - Interactive UI component visualization
+        3. Use appropriate styling and layout
+        4. Implement any relevant interactive features
+        5. Follow web accessibility guidelines
+
+        Please provide only the complete HTML code (including CSS and JavaScript) without any additional explanation.
+        The code should be ready to use and well-formatted.
         """
+        
+        html_result = self.llm_util.native_chat(prompt)
         
         # 保存HTML
         ablation_html_path = f"{output_dir}/index.html"
         with open(ablation_html_path, "w", encoding='utf-8') as f:
-            f.write(ablation_html)
+            f.write(html_result)
         
         return {
             "frame_path": frame_path,

@@ -1,0 +1,132 @@
+Sure! I'll guide you through the implementation step by step. We'll create an HTML structure that can load analysis data in JSON format and visualize UI elements as described. The visualization will use `<canvas>` for drawing, and I'll implement controls for navigation. Here's how we can approach it:
+
+### Step 1: Create the HTML Structure
+
+We'll start with a basic HTML structure including links to CSS and JavaScript libraries you might want (like jQuery for easier DOM manipulation and Bootstrap for styling).
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Analysis Visualization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #control-panel {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        #canvas-container {
+            flex-grow: 1;
+            position: relative;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="control-panel" class="d-flex justify-content-between">
+    <button id="toggle-elements" class="btn btn-primary">Toggle UI Elements</button>
+    <button id="toggle-edges" class="btn btn-secondary">Toggle Edge Overlay</button>
+</div>
+
+<div id="canvas-container">
+    <canvas id="uiCanvas"></canvas>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+```
+
+### Step 2: Implement JSON Loading Logic
+
+Next, we will add a JavaScript file (`script.js`) that will initialize the canvas and load the JSON data. For demonstration purposes, I'll hard-code the JSON data.
+
+```javascript
+// script.js
+const jsonData = {
+    directImageAnalysis: {
+        mainUIComponents: [
+            { name: "Navigation Sidebar", layout: "vertical" },
+            { name: "Main Content Area", layout: "central" },
+            { name: "Header Section", layout: "top" },
+            { name: "Footer", layout: "narrow" }
+        ],
+        textContentVisible: [
+            "Bootstrap 教程", "Bootstrap 创建一个网页", "我的第一个 Bootstrap"
+        ],
+        url: "https://www.runoob.com/try/demo_source/bootstrap3-makewebsite.htm",
+        promotionalText: "Promotional text related to Cathay Pacific."
+    },
+    edgeBasedAnalysis: {
+        uiComponents: [
+            { name: "Navigation Bar", layout: "top" },
+            { name: "Sidebar Menu", layout: "left" },
+            { name: "Content Area", layout: "central" }
+        ]
+    }
+};
+
+const canvas = document.getElementById("uiCanvas");
+const context = canvas.getContext("2d");
+
+// Function to draw UI components
+function drawComponents() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "rgba(0, 150, 0, 0.5)";
+    jsonData.directImageAnalysis.mainUIComponents.forEach((component, index) => {
+        context.fillRect(10, 10 + index * 100, 200, 80);
+        context.fillStyle = "black";
+        context.fillText(component.name, 15, 50 + index * 100);
+        context.fillStyle = "rgba(0, 150, 0, 0.5)";
+    });
+}
+
+// Function to draw edges (dummy representation)
+function drawEdgeOverlay() {
+    context.strokeStyle = "red";
+    context.beginPath();
+    context.moveTo(150, 50);
+    context.lineTo(150, canvas.height - 50);
+    context.stroke();
+}
+
+// Event listeners
+document.getElementById("toggle-elements").addEventListener("click", () => {
+    drawComponents();
+});
+
+document.getElementById("toggle-edges").addEventListener("click", () => {
+    drawEdgeOverlay();
+});
+
+// Initial call to canvas functions
+drawComponents();
+```
+
+### Step 3: Implement Responsive Design
+
+The canvas will adapt based on the width of the container. You may adjust styles in the CSS section if necessary to ensure it looks good on mobile.
+
+### Step 4: Error Handling and Loading States
+
+You can implement simple UI feedback for loading states and errors in the future. For example, as the canvas draws, you could use a simple loading spinner or message notifying users that something is processing.
+
+### Conclusion
+
+Now you have a basic HTML page with a canvas for visualizing UI analysis results. The page can act interactively with buttons toggling UI components and edge overlay. Each functionality can be enhanced further, including real data loading from a server and better visualization techniques like actual shapes matching the UI structure.
+
+You would need to expand or modify it as per your requirements, such as linking or validating the actual UI analysis data, implementing advanced visualization techniques, or managing the layout more comprehensively.

@@ -15,7 +15,7 @@ def parse_args():
     parser.add_argument('--sample-rate', '-s', type=float, default=5.0,
                       help='视频采样率，单位为秒 (默认: 5.0)')
     parser.add_argument('--mode', '-m', type=str, choices=['full', 'ablation', 'both'],
-                      default='full', help='运行模式: full(完整分析), ablation(消融实验), both(两者都运行) (默认: both)')
+                      default='ablation', help='运行模式: full(完整分析), ablation(消融实验), both(两者都运行) (默认: both)')
     return parser.parse_args()
 
 def run_full_analysis(handler, video_path, output_dir):
@@ -26,8 +26,6 @@ def run_full_analysis(handler, video_path, output_dir):
     print("处理完成!")
     print(f"原始帧保存至: {result['frame_path']}")
     print(f"JSON数据保存至: {result['json_path']}")
-    print("\nHTML可视化文件:")
-    print(f"主页面: {result['index_path']}")
     print("\n各版本可视化:")
     for approach, path in result['html_paths'].items():
         print(f"- {approach}: {path}")
