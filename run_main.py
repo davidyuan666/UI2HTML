@@ -63,13 +63,24 @@ def run_evaluate(handler, output_dir):
     # 运行评估
     report = handler.run_evaluate(ablation_html, full_html)
     
+    # 添加文件路径信息到报告中
+    report['file_info'] = {
+        'full_analysis_file': full_html_path,
+        'ablation_file': ablation_html_path
+    }
+    
     print("\n评估完成!")
     print(f"评估报告已保存至: {os.path.join(output_dir, 'evaluation_report.json')}")
     
     # 打印主要评估结果
     if isinstance(report, dict):
-        print("\n主要评估指标:")
+        print("\n=== 评估文件 ===")
+        print(f"完整分析COT文件: {full_html_path}")
+        print(f"消融实验文件: {ablation_html_path}")
+        print("\n=== 主要评估指标 ===")
         for key, value in report.items():
+            if key == 'file_info':
+                continue  # 已经单独打印过文件信息
             if isinstance(value, dict):
                 print(f"\n{key}:")
                 for sub_key, sub_value in value.items():

@@ -68,7 +68,8 @@ class HTMLEvaluator:
         tfidf_matrix = vectorizer.fit_transform([html1, html2])
         
         # 计算余弦相似度
-        similarity = (tfidf_matrix * tfidf_matrix.T).A[0,1]
+        # 修改这里：使用 toarray() 替代 A
+        similarity = (tfidf_matrix * tfidf_matrix.T).toarray()[0,1]
         return similarity
     
     def evaluate(self, html1, html2):

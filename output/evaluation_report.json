@@ -1,0 +1,15 @@
+{
+  "detailed_metrics": {
+    "HTML Text Similarity Score": 0.2044144524110783,
+    "HTML Tag Similarity Score": 0.6818181818181818,
+    "HTML Tree Distance Score": 0.11627906976744184,
+    "HTML Vector Similarity Score": 0.5374248931513491
+  },
+  "overall_score": 0.38498414928701274,
+  "weights_used": {
+    "text_similarity": 0.25,
+    "tag_similarity": 0.25,
+    "tree_distance": 0.25,
+    "vector_similarity": 0.25
+  }
+}
