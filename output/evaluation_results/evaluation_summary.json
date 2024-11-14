@@ -1,0 +1,63 @@
+{
+  "timestamp": "2024-11-14T18:05:26.163718",
+  "ablation_file": "output\\ablation/index.html",
+  "evaluations": {
+    "visualization_graph_of_thought.html": {
+      "detailed_metrics": {
+        "HTML Text Similarity Score": 0.15788201160541587,
+        "HTML Tag Similarity Score": 0.7142857142857143,
+        "HTML Tree Distance Score": 0.32727272727272727,
+        "HTML Vector Similarity Score": 0.6108533754576548
+      },
+      "overall_score": 0.4525734571553781,
+      "weights_used": {
+        "text_similarity": 0.25,
+        "tag_similarity": 0.25,
+        "tree_distance": 0.25,
+        "vector_similarity": 0.25
+      },
+      "file_info": {
+        "full_analysis_file": "output\\html_versions\\visualization_graph_of_thought.html",
+        "ablation_file": "output\\ablation/index.html"
+      }
+    },
+    "visualization_standard_cot.html": {
+      "detailed_metrics": {
+        "HTML Text Similarity Score": 0.2044144524110783,
+        "HTML Tag Similarity Score": 0.6818181818181818,
+        "HTML Tree Distance Score": 0.11627906976744184,
+        "HTML Vector Similarity Score": 0.5374248931513491
+      },
+      "overall_score": 0.38498414928701274,
+      "weights_used": {
+        "text_similarity": 0.25,
+        "tag_similarity": 0.25,
+        "tree_distance": 0.25,
+        "vector_similarity": 0.25
+      },
+      "file_info": {
+        "full_analysis_file": "output\\html_versions\\visualization_standard_cot.html",
+        "ablation_file": "output\\ablation/index.html"
+      }
+    },
+    "visualization_tree_of_thought.html": {
+      "detailed_metrics": {
+        "HTML Text Similarity Score": 0.1690106094251172,
+        "HTML Tag Similarity Score": 0.6071428571428571,
+        "HTML Tree Distance Score": -0.04615384615384621,
+        "HTML Vector Similarity Score": 0.6142524930867301
+      },
+      "overall_score": 0.33606302837521457,
+      "weights_used": {
+        "text_similarity": 0.25,
+        "tag_similarity": 0.25,
+        "tree_distance": 0.25,
+        "vector_similarity": 0.25
+      },
+      "file_info": {
+        "full_analysis_file": "output\\html_versions\\visualization_tree_of_thought.html",
+        "ablation_file": "output\\ablation/index.html"
+      }
+    }
+  }
+}

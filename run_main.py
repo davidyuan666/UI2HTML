@@ -2,6 +2,8 @@ import argparse
 from webpage_handler import WebpageHandler
 from pathlib import Path
 import os
+import json
+from datetime import datetime
 
 DEFAULT_VIDEO_PATH = os.path.join(os.getcwd(),'ui_dataset','VID_20241114_153252.mp4')
 
@@ -50,37 +52,61 @@ def run_evaluate(handler, output_dir):
     """评估不同方法生成的HTML结果差异"""
     print("\n=== 评估分析结果 ===")
     
-    # 获取完整分析的HTML文件
-    full_html_path = os.path.join(output_dir, 'html_versions/visualization_standard_cot.html')
-    with open(full_html_path, 'r', encoding='utf-8') as f:
-        full_html = f.read()
+    # 获取html_versions目录下的所有HTML文件
+    html_versions_dir = os.path.join(output_dir, 'html_versions')
+    html_files = [f for f in os.listdir(html_versions_dir) if f.endswith('.html')]
+    
+    if not html_files:
+        raise Exception("未找到HTML文件在目录: " + html_versions_dir)
+    
+    # 读取所有HTML文件
+    html_contents = {}
+    for filename in html_files:
+        file_path = os.path.join(html_versions_dir, filename)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            html_contents[filename] = {
+                'path': file_path,
+                'content': f.read()
+            }
     
     # 获取消融实验的HTML文件
     ablation_html_path = os.path.join(output_dir, 'ablation/index.html')
     with open(ablation_html_path, 'r', encoding='utf-8') as f:
         ablation_html = f.read()
     
-    # 运行评估
-    report = handler.run_evaluate(ablation_html, full_html)
+    # 创建评估结果目录
+    eval_output_dir = os.path.join(output_dir, 'evaluation_results')
+    os.makedirs(eval_output_dir, exist_ok=True)
     
-    # 添加文件路径信息到报告中
-    report['file_info'] = {
-        'full_analysis_file': full_html_path,
-        'ablation_file': ablation_html_path
-    }
-    
-    print("\n评估完成!")
-    print(f"评估报告已保存至: {os.path.join(output_dir, 'evaluation_report.json')}")
-    
-    # 打印主要评估结果
-    if isinstance(report, dict):
-        print("\n=== 评估文件 ===")
-        print(f"完整分析COT文件: {full_html_path}")
+    # 对每个HTML版本进行评估
+    reports = {}
+    for filename, html_data in html_contents.items():
+        print(f"\n评估 {filename} vs ablation:")
+        report = handler.run_evaluate(ablation_html, html_data['content'])
+        
+        # 添加文件信息
+        report['file_info'] = {
+            'full_analysis_file': html_data['path'],
+            'ablation_file': ablation_html_path
+        }
+        
+        # 保存详细的评估结果
+        eval_filename = f'evaluation_{os.path.splitext(filename)[0]}.json'
+        eval_path = os.path.join(eval_output_dir, eval_filename)
+        with open(eval_path, 'w', encoding='utf-8') as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        
+        reports[filename] = report
+        
+        # 打印当前评估结果
+        print(f"\n=== 评估文件 ===")
+        print(f"完整分析文件: {html_data['path']}")
         print(f"消融实验文件: {ablation_html_path}")
+        print(f"评估报告保存至: {eval_path}")
         print("\n=== 主要评估指标 ===")
         for key, value in report.items():
             if key == 'file_info':
-                continue  # 已经单独打印过文件信息
+                continue
             if isinstance(value, dict):
                 print(f"\n{key}:")
                 for sub_key, sub_value in value.items():
@@ -88,7 +114,18 @@ def run_evaluate(handler, output_dir):
             else:
                 print(f"{key}: {value}")
     
-    return report
+    # 保存汇总报告
+    summary_path = os.path.join(eval_output_dir, 'evaluation_summary.json')
+    with open(summary_path, 'w', encoding='utf-8') as f:
+        json.dump({
+            'timestamp': datetime.now().isoformat(),
+            'ablation_file': ablation_html_path,
+            'evaluations': reports
+        }, f, indent=2, ensure_ascii=False)
+    
+    print(f"\n汇总报告已保存至: {summary_path}")
+    
+    return reports
 
 
     

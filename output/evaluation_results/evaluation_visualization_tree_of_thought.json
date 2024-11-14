@@ -1,0 +1,19 @@
+{
+  "detailed_metrics": {
+    "HTML Text Similarity Score": 0.1690106094251172,
+    "HTML Tag Similarity Score": 0.6071428571428571,
+    "HTML Tree Distance Score": -0.04615384615384621,
+    "HTML Vector Similarity Score": 0.6142524930867301
+  },
+  "overall_score": 0.33606302837521457,
+  "weights_used": {
+    "text_similarity": 0.25,
+    "tag_similarity": 0.25,
+    "tree_distance": 0.25,
+    "vector_similarity": 0.25
+  },
+  "file_info": {
+    "full_analysis_file": "output\\html_versions\\visualization_tree_of_thought.html",
+    "ablation_file": "output\\ablation/index.html"
+  }
+}

@@ -11,5 +11,9 @@
     "tag_similarity": 0.25,
     "tree_distance": 0.25,
     "vector_similarity": 0.25
+  },
+  "file_info": {
+    "full_analysis_file": "output\\html_versions\\visualization_standard_cot.html",
+    "ablation_file": "output\\ablation/index.html"
   }
 }
