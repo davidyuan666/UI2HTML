@@ -14,8 +14,8 @@ def parse_args():
                       help='输出目录路径 (默认: output)')
     parser.add_argument('--sample-rate', '-s', type=float, default=5.0,
                       help='视频采样率，单位为秒 (默认: 5.0)')
-    parser.add_argument('--mode', '-m', type=str, choices=['full', 'ablation', 'both'],
-                      default='both', help='运行模式: full(完整分析), ablation(消融实验), both(两者都运行) (默认: both)')
+    parser.add_argument('--mode', '-m', type=str, choices=['full', 'ablation', 'both','evaluate'],
+                      default='evaluate', help='运行模式: full(完整分析), ablation(消融实验), both(两者都运行) (默认: both)')
     return parser.parse_args()
 
 def run_full_analysis(handler, video_path, output_dir):
@@ -43,6 +43,46 @@ def run_ablation_study(handler, video_path, output_dir):
     print(f"可视化页面: {result['html_path']}")
     
     return result
+
+
+
+def run_evaluate(handler, output_dir):
+    """评估不同方法生成的HTML结果差异"""
+    print("\n=== 评估分析结果 ===")
+    
+    # 获取完整分析的HTML文件
+    full_html_path = os.path.join(output_dir, 'html_versions/visualization_standard_cot.html')
+    with open(full_html_path, 'r', encoding='utf-8') as f:
+        full_html = f.read()
+    
+    # 获取消融实验的HTML文件
+    ablation_html_path = os.path.join(output_dir, 'ablation/index.html')
+    with open(ablation_html_path, 'r', encoding='utf-8') as f:
+        ablation_html = f.read()
+    
+    # 运行评估
+    report = handler.run_evaluate(ablation_html, full_html)
+    
+    print("\n评估完成!")
+    print(f"评估报告已保存至: {os.path.join(output_dir, 'evaluation_report.json')}")
+    
+    # 打印主要评估结果
+    if isinstance(report, dict):
+        print("\n主要评估指标:")
+        for key, value in report.items():
+            if isinstance(value, dict):
+                print(f"\n{key}:")
+                for sub_key, sub_value in value.items():
+                    print(f"  {sub_key}: {sub_value}")
+            else:
+                print(f"{key}: {value}")
+    
+    return report
+
+
+    
+
+
 
 def main():
     """主函数"""
@@ -72,6 +112,10 @@ def main():
             ablation_output = os.path.join(args.output, 'ablation')
             results['ablation'] = run_ablation_study(handler, video_path, ablation_output)
         
+        # 在both模式下运行评估
+        if args.mode == 'evaluate':
+            results['evaluate'] = run_evaluate(handler, args.output)
+            
         
     except Exception as e:
         print(f"处理过程中出现错误: {str(e)}")
