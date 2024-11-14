@@ -1,0 +1,93 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>UI Analysis Results</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    margin: 20px;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                h1, h2 { color: #333; }
+                .section {
+                    margin: 20px 0;
+                    padding: 15px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }
+                .image-section {
+                    text-align: center;
+                }
+                .image-section img {
+                    max-width: 100%;
+                    height: auto;
+                    margin: 10px 0;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }
+                .analysis-section {
+                    background: #f9f9f9;
+                }
+                pre {
+                    background: #f5f5f5;
+                    padding: 10px;
+                    border-radius: 5px;
+                    overflow-x: auto;
+                    white-space: pre-wrap;
+                }
+                .links { 
+                    margin: 20px 0;
+                }
+                a { 
+                    display: inline-block;
+                    margin: 10px;
+                    padding: 10px 15px;
+                    background: #0066cc;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 5px;
+                }
+                a:hover {
+                    background: #0052a3;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>UI Analysis Results</h1>
+            
+            <div class="section image-section">
+                <h2>Original Frame</h2>
+                <img src="frame.jpg" alt="Original Frame">
+            </div>
+            
+            <div class="section analysis-section">
+                <h2>Direct Image Analysis</h2>
+                <pre></pre>
+                
+                <h2>Edge-Based Analysis</h2>
+                <pre></pre>
+                
+                <h2>Combined Analysis</h2>
+                <pre>Error during native chat completion: Connection error.</pre>
+            </div>
+            
+            <div class="section">
+                <h2>Visualization Versions</h2>
+                <div class="links">
+                    <a href="html_versions/visualization_standard_cot.html">Standard Chain of Thought</a>
+                    <a href="html_versions/visualization_tree_of_thought.html">Tree of Thought</a>
+                    <a href="html_versions/visualization_graph_of_thought.html">Graph of Thought</a>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Data Files</h2>
+                <p>Original frame: <a href="frame.jpg">frame.jpg</a></p>
+                <p>Edge detection data: <a href="edges.json">edges.json</a></p>
+            </div>
+        </body>
+        </html>
+        
