@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Responsive Page</title>
+</head>
+<body>
+    <div class="container">
+        <div class="text" style="left: 171px; top: 133px; width: 62px; height: 15px;">Resize</div>
+        <div class="text" style="left: 240px; top: 133px; width: 31px; height: 15px;">this</div>
+        <div class="text" style="left: 279px; top: 133px; width: 100px; height: 19px;">responsive</div>
+        <div class="text" style="left: 387px; top: 137px; width: 44px; height: 15px;">page</div>
+        <div class="text" style="left: 438px; top: 134px; width: 17px; height: 14px;">to</div>
+        <div class="text" style="left: 462px; top: 137px; width: 32px; height: 11px;">see</div>
+        <div class="text" style="left: 501px; top: 133px; width: 28px; height: 15px;">the</div>
+        <div class="text" style="left: 537px; top: 133px; width: 54px; height: 15px;">effect!</div>
+        
+        <div class="text" style="left: 202px; top: 273px; width: 80px; height: 17px;">Column</div>
+        <div class="text" style="left: 291px; top: 273px; width: 11px; height: 17px;">2</div>
+        <div class="text" style="left: 592px; top: 273px; width: 80px; height: 17px;">Column</div>
+        <div class="text" style="left: 682px; top: 273px; width: 11px; height: 17px;">3</div>
+        
+        <div class="text" style="left: 0px; top: 311px; width: 60px; height: 10px;">nsectetur</div>
+        <div class="text" style="left: 65px; top: 311px; width: 63px; height: 13px;">adipisicing</div>
+        <div class="text" style="left: 134px; top: 311px; width: 17px; height: 10px;">elit</div>
+        <div class="text" style="left: 202px; top: 311px; width: 38px; height: 10px;">Lorem</div>
+        <div class="text" style="left: 246px; top: 313px; width: 35px; height: 11px;">ipsum</div>
+        <div class="text" style="left: 286px; top: 311px; width: 31px; height: 10px;">dolor</div>
+        <div class="text" style="left: 322px; top: 311px; width: 13px; height: 10px;">sit</div>
+        <div class="text" style="left: 340px; top: 311px; width: 30px; height: 10px;">amet,</div>
+        <div class="text" style="left: 378px; top: 311px; width: 72px; height: 10px;">consectetur</div>
+        <div class="text" style="left: 455px; top: 311px; width: 63px; height: 13px;">adipisicing</div>
+        <div class="text" style="left: 524px; top: 311px; width: 17px; height: 10px;">elit</div>
+        <div class="text" style="left: 592px; top: 311px; width: 38px; height: 10px;">Lorem</div>
+        <div class="text" style="left: 636px; top: 313px; width: 35px; height: 11px;">ipsum</div>
+        <div class="text" style="left: 676px; top: 311px; width: 31px; height: 10px;">dolor</div>
+        <div class="text" style="left: 712px; top: 311px; width: 13px; height: 10px;">sit</div>
+        <div class="text" style="left: 730px; top: 311px; width: 30px; height: 10px;">amet,</div>
+        <div class="text" style="left: 768px; top: 313px; width: 13px; height: 8px;">cc</div>
+        
+        <div class="text" style="left: 0px; top: 341px; width: 52px; height: 10px;">nostrud</div>
+        <div class="text" style="left: 58px; top: 341px; width: 70px; height: 10px;">exercitation</div>
+        <div class="text" style="left: 202px; top: 341px; width: 13px; height: 10px;">Ut</div>
+        <div class="text" style="left: 220px; top: 343px; width: 28px; height: 8px;">enim</div>
+        <div class="text" style="left: 254px; top: 341px; width: 14px; height: 10px;">ad</div>
+        <div class="text" style="left: 274px; top: 343px; width: 35px; height: 8px;">minim</div>
+        <div class="text" style="left: 314px; top: 343px; width: 44px; height: 8px;">veniam,</div>
+        <div class="text" style="left: 367px; top: 343px; width: 25px; height: 11px;">quis</div>
+        <div class="text" style="left: 397px; top: 341px; width: 45px; height: 10px;">nostrud</div>
+        <div class="text" style="left: 448px; top: 341px; width: 70px; height: 10px;">exercitation</div>
+        <div class="text" style="left: 592px; top: 341px; width: 13px; height: 10px;">Ut</div>
+        <div class="text" style="left: 610px; top: 343px; width: 28px; height: 8px;">enim</div>
+        <div class="text" style="left: 644px; top: 341px; width: 14px; height: 10px;">ad</div>
+        <div class="text" style="left: 664px; top: 343px; width: 35px; height: 8px;">minim</div>
+        <div class="text" style="left: 704px; top: 343px; width: 44px; height: 8px;">veniam,</div>
+        <div class="text" style="left: 757px; top: 343px; width: 24px; height: 11px;">quis</div>
+        
+        <div class="text" style="left: 202px; top: 361px; width: 47px; height: 10px;">ullamco</div>
+        <div class="text" style="left: 254px; top: 361px; width: 40px; height: 10px;">laboris.</div>
+        <div class="text" style="left: 592px; top: 361px; width: 47px; height: 10px;">ullamco</div>
+        <div class="text" style="left: 644px; top: 361px; width: 40px; height: 10px;">laboris.</div>
+    </div>
+</body>
+</html>
