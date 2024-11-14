@@ -15,7 +15,7 @@ def parse_args():
     parser.add_argument('--sample-rate', '-s', type=float, default=5.0,
                       help='视频采样率，单位为秒 (默认: 5.0)')
     parser.add_argument('--mode', '-m', type=str, choices=['full', 'ablation', 'both'],
-                      default='ablation', help='运行模式: full(完整分析), ablation(消融实验), both(两者都运行) (默认: both)')
+                      default='both', help='运行模式: full(完整分析), ablation(消融实验), both(两者都运行) (默认: both)')
     return parser.parse_args()
 
 def run_full_analysis(handler, video_path, output_dir):
@@ -72,12 +72,6 @@ def main():
             ablation_output = os.path.join(args.output, 'ablation')
             results['ablation'] = run_ablation_study(handler, video_path, ablation_output)
         
-        # 如果两种分析都运行了，打印比较链接
-        if args.mode == 'both':
-            print("\n=== 比较分析 ===")
-            print(f"完整分析结果: {results['full']['index_path']}")
-            print(f"消融实验结果: {results['ablation']['html_path']}")
-            print("\n可以打开这两个页面进行比较分析")
         
     except Exception as e:
         print(f"处理过程中出现错误: {str(e)}")

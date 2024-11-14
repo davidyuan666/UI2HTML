@@ -1,98 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-data="{ darkMode: false }" :class="{ 'bg-gray-900 text-white': darkMode, 'bg-white text-gray-900': !darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Wells</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>UI Analysis Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.6.0/dist/cdn.min.js" defer></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+        .loading {
+            display: none;
         }
-        .sidebar {
-            background-color: #343a40;
-            color: white;
-            height: 100vh;
-            padding: 20px;
+        .loading.show {
+            display: block;
         }
-        .sidebar a {
-            color: white;
-            text-decoration: none;
+        .card {
+            transition: transform 0.2s;
         }
-        .sidebar a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            margin-left: 220px;
-            padding: 20px;
-        }
-        .banner {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-        .image-frame {
-            text-align: center;
-            margin: 20px 0;
-        }
-        .analysis-results {
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        h1, h2 {
-            color: #007bff;
+        .card:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h3>导航菜单</h3>
-        <ul class="nav nav-pills nav-stacked">
-            <li><a href="#">Bootstrap 教程</a></li>
-            <li><a href="#">Bootstrap 简介</a></li>
-            <li><a href="#">Bootstrap CSS</a></li>
-            <li><a href="#">更多资源</a></li>
-        </ul>
-    </div>
-
-    <div class="content">
-        <div class="banner">
-            <h2>Promotional Content</h2>
-            <p>Check out the latest offers from Cathay!</p>
+    <header class="flex justify-between items-center p-4">
+        <h1 class="text-2xl">Bootstrap UI Analysis</h1>
+        <button @click="darkMode = !darkMode" class="p-2 bg-gray-300 rounded">
+            Toggle Dark/Light Mode
+        </button>
+    </header>
+    <main class="flex flex-col md:flex-row">
+        <div class="w-full md:w-1/2 p-4">
+            <img src="frame.jpg" alt="UI image" class="rounded shadow-lg">
+            <div class="loading" x-show="loading">Loading...</div>
         </div>
-        
-        <div class="image-frame">
-            <h2>Original UI Image</h2>
-            <img src="frame.jpg" alt="UI Image" class="img-responsive" />
+        <div class="w-full md:w-1/2 p-4">
+            <h2 class="text-xl font-semibold">Analysis Results</h2>
+            <div x-data="{ open: false }">
+                <div class="card border border-gray-300 rounded-lg p-4 my-2" @click="open = !open">
+                    <h3 class="font-medium">Main UI Components and Layout</h3>
+                    <p x-show="open" class="mt-2">- Navigation Menu: A vertical sidebar on the left containing links related to Bootstrap tutorials and resources.</p>
+                </div>
+            </div>
+            <div x-data="{ open: false }">
+                <div class="card border border-gray-300 rounded-lg p-4 my-2" @click="open = !open">
+                    <h3 class="font-medium">Text Content Visible</h3>
+                    <p x-show="open" class="mt-2">- Titles and Headings: "Bootstrap 创建一个网页", "我的第一个 Bootstrap 页面".</p>
+                </div>
+            </div>
+            <div x-data="{ open: false }">
+                <div class="card border border-gray-300 rounded-lg p-4 my-2" @click="open = !open">
+                    <h3 class="font-medium">Overall Structure and Purpose of this Interface</h3>
+                    <p x-show="open" class="mt-2">- The interface appears to serve as an educational resource for learning Bootstrap.</p>
+                </div>
+            </div>
+            <div x-data="{ open: false }">
+                <div class="card border border-gray-300 rounded-lg p-4 my-2" @click="open = !open">
+                    <h3 class="font-medium">Interactive Elements</h3>
+                    <p x-show="open" class="mt-2">- The sidebar contains links to various Bootstrap topics, which are likely clickable.</p>
+                </div>
+            </div>
+            <div x-data="{ open: false }">
+                <div class="card border border-gray-300 rounded-lg p-4 my-2" @click="open = !open">
+                    <h3 class="font-medium">Color Scheme and Visual Hierarchy</h3>
+                    <p x-show="open" class="mt-2">- The UI includes a color scheme that complements the educational purpose.</p>
+                </div>
+            </div>
         </div>
-        
-        <div class="analysis-results">
-            <h2>Analysis Results</h2>
-            <h3>1. Main UI Components and Layout</h3>
-            <ul>
-                <li><strong>Navigation Menu:</strong> A vertical sidebar containing tutorial links.</li>
-                <li><strong>Main Content Area:</strong> Central section displaying instructional text.</li>
-                <li><strong>Header:</strong> Contains the name “Bootstrap Wells.”</li>
-                <li><strong>Banner Area:</strong> Promotional content related to Cathay.</li>
-            </ul>
-            
-            <h3>2. Text Content Visible</h3>
-            <p>The main heading is <strong>"Bootstrap 创建一个网页"</strong>, providing guidance on Bootstrap 3 for web page creation.</p>
-            
-            <h3>3. Overall Structure and Purpose</h3>
-            <p>The interface provides educational content about Bootstrap for users interested in web development.</p>
-            
-            <h3>4. Interactive Elements</h3>
-            <p>Navigation links allow users to easily navigate through different resources.</p>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </main>
+    <footer class="p-4 text-center">
+        <p>&copy; 2023 UI Analysis. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>

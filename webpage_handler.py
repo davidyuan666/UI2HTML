@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from llm_util import LLMUtil
 from preprocess import ImagePreprocessor
-
+from evaluate import HTMLEvaluator
 
 class WebpageHandler:
     def __init__(self):
@@ -300,24 +300,44 @@ class WebpageHandler:
         
         # 生成HTML的提示词
         prompt = f"""
-        Generate an HTML page based on the UI image analysis results below. 
-        The page should visualize and structure the analysis in an interactive and user-friendly way.
+        Generate ONLY a complete, runnable HTML code for visualizing UI analysis results.
+        DO NOT include any explanations or markdown, ONLY the HTML code.
 
-        Analysis Results:
-        {direct_analysis}
+        Analysis Data:
+        ANALYSIS_RESULT = `{direct_analysis}`
 
-        Requirements:
-        1. Create a modern, responsive web interface
-        2. Include the following sections:
-        - Original image display (use 'frame.jpg' as the image source)
-        - Structured analysis results
-        - Interactive UI component visualization
-        3. Use appropriate styling and layout
-        4. Implement any relevant interactive features
-        5. Follow web accessibility guidelines
+        Technical Requirements:
+        1. Use Tailwind CSS (via CDN)
+        2. Use Alpine.js for interactivity (via CDN)
+        3. Implement:
+        - Responsive layout
+        - Dark/light mode toggle
+        - Interactive analysis viewer
+        - Image display (use 'frame.jpg' as src)
+        - Expandable analysis sections
+        - Loading states
+        - Hover effects
 
-        Please provide only the complete HTML code (including CSS and JavaScript) without any additional explanation.
-        The code should be ready to use and well-formatted.
+        The HTML must include:
+        - <!DOCTYPE html> declaration
+        - All necessary meta tags
+        - Tailwind and Alpine.js CDN links
+        - Proper viewport settings
+        - All CSS and JavaScript inline
+        - Error handling
+        - Accessibility features
+        - Touch support
+
+        Structure:
+        1. Header with theme toggle
+        2. Main content:
+        - Original image viewer
+        - Analysis results in cards
+        - Interactive components
+        3. Footer with metadata
+
+        IMPORTANT: Output ONLY the complete HTML code that starts with <!DOCTYPE html>, nothing else.
+        Do not include any explanations or comments about the code.
         """
         
         html_result = self.llm_util.native_chat(prompt)
@@ -332,3 +352,17 @@ class WebpageHandler:
             "analysis_path": analysis_path,
             "html_path": ablation_html_path
         }
+    
+
+
+    def run_evaluate(self, ablation_html, full_html):
+        """比较两个HTML版本的差异"""
+        evaluator = HTMLEvaluator()
+        report = evaluator.generate_report(ablation_html, full_html)
+        
+        # 保存评估报告
+        report_path = "output/evaluation_report.json"
+        with open(report_path, "w", encoding='utf-8') as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        
+        return report
