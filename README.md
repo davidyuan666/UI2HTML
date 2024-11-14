@@ -14,7 +14,7 @@ UI2HTML 是一个创新的工具，用于将UI设计（视频或图像）自动�
 - **可视化输出**: 生成多个版本的HTML实现，便于比较和选择
 
 ## 项目结构
-
+```
 UI2HTML/
 ├── run_main.py # 主运行脚本
 ├── webpage_handler.py # 网页处理核心类
@@ -22,18 +22,18 @@ UI2HTML/
 ├── llm_util.py # LLM工具类
 ├── preprocess.py # 图像预处理工具
 └── ui_dataset/ # 测试数据集
-
+```
 
 
 ## 安装依赖
-```python
+```
 pip install -r requirements.txt
 ```
 
 ## 使用方法
 
 ### 基本用法
-```python
+```
 python run_main.py --video path/to/video.mp4 --output output_dir
 ```
 
@@ -63,7 +63,7 @@ python run_main.py --video path/to/video.mp4 --output output_dir
 ## 输出说明
 
 ### 目录结构
-
+```
 output/
 ├── html_versions/ # 不同策略生成的HTML
 │ ├── visualization_standard_cot.html
@@ -74,7 +74,7 @@ output/
 └── evaluation_results/ # 评估报告
 ├── evaluation_.json # 详细评估结果
 └── evaluation_summary.json
-
+```
 
 ### 评估指标
 
