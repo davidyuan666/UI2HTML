@@ -121,7 +121,7 @@ output/
 ## 联系方式
 
 - 作者：David Yuan
-- GitHub：[davidyuan666](https://github.com/davidyuan666)
+- Email: wu.xiguanghua2014@gmail.com
 
 ## 致谢
 
