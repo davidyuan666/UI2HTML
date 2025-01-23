@@ -10,8 +10,8 @@ import numpy as np
 from datetime import datetime
 from pathlib import Path
 from llm_util import LLMUtil
-from preprocess import ImagePreprocessor
-from evaluate import HTMLEvaluator
+from utils.preprocess import ImagePreprocessor
+from utils.evaluate import HTMLEvaluator
 
 class WebpageHandler:
     def __init__(self):
