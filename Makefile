@@ -4,6 +4,12 @@
 # Default git commit message
 MESSAGE ?= "Update repository"
 
+
+.PHONY: install
+install:
+	pdm install
+
+
 # Git commands
 status:
 	git status
