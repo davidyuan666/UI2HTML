@@ -11,15 +11,10 @@ status:
 pull:
 	git pull origin main
 
-push:
-	git push origin main
-
 commit:
 	git add .
 	git commit -m $(MESSAGE)
-
-# Combine commit and push
-deploy: commit push
+	git push origin main
 
 # Clean unnecessary files
 clean:
