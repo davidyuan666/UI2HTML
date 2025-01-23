@@ -1,0 +1,15 @@
+[project]
+name = "ui-analysis"
+version = "0.1.0"
+description = "UI analysis tool"
+dependencies = [
+    "beautifulsoup4",
+    "opencv-python",
+    "numpy",
+    "scikit-learn",
+    "zss",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

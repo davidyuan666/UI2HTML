@@ -1,5 +1,0 @@
-beautifulsoup4 
-numpy 
-scikit-learn 
-zss
-beautifulsoup4
